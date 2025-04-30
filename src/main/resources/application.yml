@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: OrchServiceC
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    stream:
+      bindings:
+        messageInput-in-0:
+          content-type: application/json
+          destination: message4.exchange
+          group: message.group
+        envoiMessageServiceOrch-out-0:
+          destination: message2.exchange
+          content-type: application/json
+      rabbit:
+        bindings:
+          messageInput-in-0:
+            consumer:
+              binding-routing-key: messages4.routing.key
+              durable-subscription: true
+          envoiMessageServiceOrch-out-0:
+            producer:
+              routing-key-expression: "'messages2.routing.key'"
+server:
+  port: 8083
